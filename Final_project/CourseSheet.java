@@ -39,21 +39,23 @@ public class CourseSheet {
         for (int i = 0; i < courses.size(); i++) {
             Course currentCourse = courses.get(i);
             boolean hasConflict = false;
-    
-            for (Course c : ucl.courses) {
-                if (ucl.hasScheduleConflict(currentCourse, c)) {
+
+            UCL.Node current = ucl.getHead();
+            while (current != null) {
+                if (ucl.hasScheduleConflict(currentCourse, current.course)) {
                     hasConflict = true;
                     break;
                 }
+                current = current.next;
             }
-    
+
             if (hasConflict) {
                 // Print the course in red if there is a conflict
                 System.out.print("\u001B[31m"); // Red color
             }
-    
+
             System.out.println((i + 1) + ". " + currentCourse);
-    
+
             if (hasConflict) {
                 // Reset color back to default
                 System.out.print("\u001B[0m");
@@ -62,13 +64,14 @@ public class CourseSheet {
     }
 
     public boolean hasConflictWithUCL(UCL ucl, Course course) {
-        ArrayList<Course> uclCourses = ucl.getCourses();
-        for (Course c : uclCourses) {
-            if (ucl.hasConflictWithCourse(course)) {
+        UCL.Node current = ucl.getHead();
+        while (current != null) {
+            if (ucl.hasScheduleConflict(course, current.course)) {
                 return true;
             }
+            current = current.next;
         }
         return false;
     }
-    
+
 }

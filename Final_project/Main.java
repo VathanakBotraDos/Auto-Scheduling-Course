@@ -66,7 +66,7 @@ public class Main {
             System.out.println("Press Enter to continue...");
             System.out.print("\u001B[0m");
             scanner.nextLine(); // Wait for the Enter key press
-            
+
         }
         // Print a goodbye message
         System.out.println("Thank you for using the course selection program. Goodbye.");
@@ -75,7 +75,7 @@ public class Main {
         System.out.print("\u001B[0m");
         scanner.nextLine(); // Wait for the Enter key press
         clearConsole();
-        
+
     }
 
     // A helper method that reads an integer from the user within a given range
