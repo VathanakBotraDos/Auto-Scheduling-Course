@@ -109,6 +109,13 @@ public class Main {
         int choice = readInt(1, courseSheet.getSize());
         // Get the course from the course sheet
         Course course = courseSheet.getCourse(choice - 1);
+
+        // Check if the course or its schedule is null
+        if (course == null || course.getSchedule() == null) {
+            System.out.println("Invalid course selection. Please try again.");
+            return;
+        }
+
         // Try to add the course to the user's collection list
         boolean added = ucl.addCourse(course);
         // Print a message based on the result

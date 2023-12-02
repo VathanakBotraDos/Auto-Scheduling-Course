@@ -1,5 +1,8 @@
 // Course.java
 // This class represents a course with a code, a name, and a schedule
+
+import java.sql.Time;
+
 public class Course {
     // The code of the course
     private String code;
@@ -7,6 +10,19 @@ public class Course {
     private String name;
     // The schedule of the course
     private String schedule;
+
+    private Time startTime;
+    private Time endTime;
+
+    // Other properties and methods...
+
+    public Time getStartTime() {
+        return this.startTime;
+    }
+
+    public Time getEndTime() {
+        return this.endTime;
+    }
 
     // A constructor that creates a new course with a given code, name, and schedule
     public Course(String code, String name, String schedule) {
@@ -34,4 +50,5 @@ public class Course {
     public String toString() {
         return code + " - " + name + " (" + schedule + ")";
     }
+
 }

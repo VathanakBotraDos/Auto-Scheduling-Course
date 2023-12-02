@@ -1,10 +1,11 @@
 
 // This class represents the user's collection list of courses
-import java.util.ArrayList;
 
 public class UCL {
 
     private Node head; // head of the linked list
+
+    private CourseGraph courseGraph;
 
     private static final double PRICE_PER_HOUR = 0;
 
@@ -12,6 +13,7 @@ public class UCL {
 
     public UCL() {
         head = null; // initialize head as null
+        courseGraph = new CourseGraph();
     }
 
     // Node class for linked list
@@ -33,7 +35,7 @@ public class UCL {
     private boolean dfs(Course course) {
         Node current = head;
         while (current != null) {
-            if (current.course.equals(course)) {
+            if (current.course != null && current.course.equals(course)) {
                 return true;
             }
             current = current.next;
@@ -103,33 +105,26 @@ public class UCL {
         return null; // return null if index is out of bounds
     }
 
+    // add courses
     public boolean addCourse(Course course) {
         // Check if the list is full
-        Node current = head;
-        int count = 0;
-        while (current != null) {
-            count++;
-            current = current.next;
-        }
-        if (count == MAX_CAPACITY) {
+        if (getSize() == MAX_CAPACITY) {
             System.out.print("\u001B[31m");
             System.out.println("The list is full. You cannot add more courses.");
             System.out.print("\u001B[0m");
             return false;
         }
+
         // Check if the course is already in the list
-        current = head;
-        while (current != null) {
-            if (current.course.equals(course)) {
-                System.out.print("\u001B[31m");
-                System.out.println("The course is already in the list. You cannot add it again.");
-                System.out.print("\u001B[0m");
-                return false;
-            }
-            current = current.next;
+        if (dfs(course)) {
+            System.out.print("\u001B[31m");
+            System.out.println("The course is already in the list. You cannot add it again.");
+            System.out.print("\u001B[0m");
+            return false;
         }
+
         // Check if the course has a schedule conflict with any course in the list
-        current = head;
+        Node current = head;
         while (current != null) {
             if (hasScheduleConflict(course, current.course)) {
                 System.out.print("\u001B[31m");
@@ -140,6 +135,7 @@ public class UCL {
             }
             current = current.next;
         }
+
         // Add the course to the linked list
         Node newNode = new Node(course);
         if (head == null) {
@@ -151,6 +147,10 @@ public class UCL {
             }
             current.next = newNode;
         }
+
+        // Add the course to the graph
+        courseGraph.addCourse(course);
+
         return true;
     }
 
